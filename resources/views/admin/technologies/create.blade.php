@@ -1,0 +1,34 @@
+@extends('layouts.app')
+
+@section('page-title', 'Add')
+
+@section('main-content')
+<div class="container-sm">
+<form action="" method="POST">
+    @csrf
+  <div class="mb-3">
+    <label for="inputTitle" class="form-label">Title</label>
+    <input type="text" class="form-control @error('title') is-invalid @enderror"  id="inputTitle" name="title" 
+    placeholder="Enter title" value="{{old('title')}}">
+  </div>
+  @error('title')
+      <div class="alert alert-danger">
+        {{$message}}
+        @enderror
+      </div>
+  <div class="mb-3">
+  <label class="form-label" for="inputslug">Slug</label>
+  <input type="text" class="form-control @error('slug') is-invalid @enderror" id="inputslug" name="slug" 
+  placeholder="Enter url" value="{{old('slug')}}">
+</div>
+@error('slug')
+      <div class="alert alert-danger">
+        {{$message}}
+        @enderror
+      </div>
+      <div class="container-sm">
+      <button type="submit" class="btn btn-success">Add</button>
+      </div>
+</form>
+</div>
+@endsection
