@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::table('projects', function (Blueprint $table) {
             Schema::table('projects', function (Blueprint $table) {
                 $table->unsignedBigInteger('type_id')->nullable();
                 $table->foreign('type_id')
@@ -19,6 +20,7 @@ return new class extends Migration
                 ->onUpdate('cascade')
                 ->onDelete('set null');
             });
+        });
     }
 
     /**

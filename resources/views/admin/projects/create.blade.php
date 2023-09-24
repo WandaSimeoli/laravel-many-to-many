@@ -39,7 +39,7 @@
       <div class="mb-3 container-sm">
         <label for="typeId" class="form-label">Type</label>
         <select name="type_id" id="type_id" class="form-select">
-        <option selected value="">Open this select menu</option>
+        <option value="">Open this select menu</option>
         @foreach($types as $type)
         <option value="{{$type->id}}"
         @if (old('type_id') == $type->id) selected
@@ -48,6 +48,18 @@
         @endforeach
         </select>
       </div>
+      <div class="mb-3 container-sm">
+        <label class="form-label d-block">Technology</label>
+          @foreach ($technologies as $technology)
+          <div class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" name="technologies[]"
+          id="technology-{{ $technology->id }}" value="{{ $technology->id }}">
+                            <label class="form-check-label" for="technology-{{ $technology->id }}">
+                                {{ $technology->title }}
+                            </label>
+                        </div>
+                    @endforeach
+                </div>
       <div class="container-sm">
       <button type="submit" class="btn btn-success">Add</button>
       </div>

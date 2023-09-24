@@ -12,6 +12,7 @@
         <th scope="col">slug</th>
         <th scope="col">Content</th>
         <th scope="col">Type</th>
+        <th scope="col">Technology</th>
         </tr>
     </thead>
     <tbody>
@@ -27,6 +28,16 @@
             @else 
             - 
             @endif
+        </td>
+        <td>
+        <div>
+        @forelse ($project->technologies as $technology)
+        <span class="badge rounded-pill text-bg-primary">
+                {{ $technology->title }}</span>
+                            @empty
+                            No technology associated with this project
+                            @endforelse
+        </div>
         </td>
         </tr>
     </tbody>

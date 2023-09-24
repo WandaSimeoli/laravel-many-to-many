@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Technology;
 use App\Models\Type;
 
 class ProjectController extends Controller
@@ -25,7 +26,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types= Type::all();
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -33,18 +35,14 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $request->validate([
-            'title' => 'required|max:70',
-            'content' => 'required|max:100',
-            'type_id'=> 'nullable|exists:types,id'
+        $formData = $request->validated();
+
+        $project = Project::create([
+            'title' => $formData['title'],
+            'slug' => str()->slug($formData['title']),
+            'content' => $formData['content'],
         ]);
 
-        $project = new Project;
-        $project->title=$request->input('title');
-        $project->content=$request->input('content');
-        $project->slug=$request->input('slug');
-        $project->type_id=$request->input('type_id');
-        $project->save();
         return redirect()->route('admin.projects.show', ['project'=>$project->id]);
     }
 

@@ -23,7 +23,7 @@ class TechnologyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.technologies.create');
     }
 
     /**
@@ -31,7 +31,14 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        //
+        $formData = $request->validated();
+
+        $technology = Technology::create([
+            'title' => $formData['title'],
+            'slug' => str()->slug($formData['title']),
+        ]);
+
+        return redirect()->route('admin.technologies.show', compact('technology'));
     }
 
     /**

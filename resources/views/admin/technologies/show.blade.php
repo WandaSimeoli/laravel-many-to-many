@@ -20,5 +20,17 @@
         </tr>
     </tbody>
     </table>
+    <h2>
+    Project with this technology
+            </h2>
+            <ul>
+                @foreach ($technology->projects as $project)
+                    <li>
+                        <a href="{{ route('admin.projects.show', ['project' => $project->id]) }}">
+                            {{ $project->title }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
 </div>
 @endsection

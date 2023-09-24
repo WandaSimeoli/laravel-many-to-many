@@ -23,7 +23,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.types.create');
     }
 
     /**
@@ -31,7 +31,14 @@ class TypeController extends Controller
      */
     public function store(StoreTypeRequest $request)
     {
-        //
+        $formData = $request->validated();
+
+        $type = Type::create([
+            'title' => $formData['title'],
+            'slug' => str()->slug($formData['title']),
+        ]);
+
+        return redirect()->route('admin.types.show', compact('type'));
     }
 
     /**

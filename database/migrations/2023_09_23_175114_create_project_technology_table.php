@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_technology_taable');
+        Schema::dropIfExists('project_technology_table');
     }
 };
