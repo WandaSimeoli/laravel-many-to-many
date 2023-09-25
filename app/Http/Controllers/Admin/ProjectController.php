@@ -46,7 +46,7 @@ class ProjectController extends Controller
         if(isset($formData['technologies'])) {
             foreach ($formData['technologies'] as $technologyId) {
                 $project->technologies()->attach($technologyId);
-            }
+        }
         }
 
         return redirect()->route('admin.projects.show', ['project'=>$project->id]);
@@ -76,16 +76,20 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        $request->validate([
-            'title' => 'required|max:70',
-            'content' => 'required|max:100', 
-            'type_id'=> 'required'
+        $formData = $request->validated();
+        $project->update([
+            'title' => $formData['title'],
+            'slug' => str()->slug($formData['title']),
+            'content' => $formData['content'],
+            'type_id' => $formData['type_id'],
         ]);
-        $project->title= $request->input('title');
-        $project->slug= $request->input('slug');
-        $project->content= $request->input('content');
-        $project->type_id= $request->input('type_id');
-        $project->save();
+        
+        if (isset($formData['technologies'])) {
+            $project->technologies()->sync($formData['technologies']);
+        }
+        else {
+            $project->technologies()->detach();
+        }
         return redirect()->route('admin.projects.show', ['project'=>$project->id]);
     }
 
