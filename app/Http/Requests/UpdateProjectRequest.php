@@ -23,7 +23,11 @@ class UpdateProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|max:70',
+            'content' => 'required|max:100',
+            'type_id'=> 'nullable|exists:types,id',
+            'technologies' =>'nullable|array',
+            'technologies.*' =>'exists:technologies,id',
         ];
     }
 }

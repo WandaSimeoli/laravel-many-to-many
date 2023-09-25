@@ -41,7 +41,13 @@ class ProjectController extends Controller
             'title' => $formData['title'],
             'slug' => str()->slug($formData['title']),
             'content' => $formData['content'],
+            'type_id' => $formData['type_id']
         ]);
+        if(isset($formData['technologies'])) {
+            foreach ($formData['technologies'] as $technologyId) {
+                $project->technologies()->attach($technologyId);
+            }
+        }
 
         return redirect()->route('admin.projects.show', ['project'=>$project->id]);
     }
@@ -60,7 +66,8 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
 
     }
 
@@ -71,11 +78,13 @@ class ProjectController extends Controller
     {
         $request->validate([
             'title' => 'required|max:70',
-            'content' => 'required|max:100'
+            'content' => 'required|max:100', 
+            'type_id'=> 'required'
         ]);
         $project->title= $request->input('title');
         $project->slug= $request->input('slug');
         $project->content= $request->input('content');
+        $project->type_id= $request->input('type_id');
         $project->save();
         return redirect()->route('admin.projects.show', ['project'=>$project->id]);
     }

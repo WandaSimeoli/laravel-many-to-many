@@ -32,7 +32,7 @@
         <td>
         <div>
         @forelse ($project->technologies as $technology)
-        <span class="badge rounded-pill text-bg-primary">
+        <span class="badge rounded-pill bg-secondary">
                 {{ $technology->title }}</span>
                             @empty
                             No technology associated with this project
