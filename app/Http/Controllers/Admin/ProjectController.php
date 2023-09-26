@@ -9,7 +9,6 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
 use App\Models\Type;
-use Psy\CodeCleaner\IssetPass;
 
 class ProjectController extends Controller
 {
@@ -39,16 +38,17 @@ class ProjectController extends Controller
     {
         $formData = $request->validated();
 
+        $imagePath=null;
         if(isset($formData['image'])) {
-            $imagePath= Storage::put('uploads', $formData['image']);
-            dd($imagePath);
+            $imagePath= Storage::disk('public')->put('uploads', $formData['image']);
         }
 
         $project = Project::create([
             'title' => $formData['title'],
             'slug' => str()->slug($formData['title']),
             'content' => $formData['content'],
-            'type_id' => $formData['type_id']
+            'type_id' => $formData['type_id'],
+            'image' => $imagePath
         ]);
         if(isset($formData['technologies'])) {
             foreach ($formData['technologies'] as $technologyId) {
@@ -84,11 +84,24 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $formData = $request->validated();
+        $imagePath=$project->image;
+        if(isset($formData['image'])) {
+            if($project->image) {
+                Storage::disk('public')->delete($project->image);
+            }
+            $imagePath= Storage::disk('public')->put('uploads', $formData['image']);
+        } else if (isset($formData['remove_image'])) {
+            if($project->image) {
+                Storage::delete($project->image);
+            }
+            $imagePath=null;
+        }
         $project->update([
             'title' => $formData['title'],
             'slug' => str()->slug($formData['title']),
             'content' => $formData['content'],
             'type_id' => $formData['type_id'],
+            'image' => $imagePath
         ]);
         
         if (isset($formData['technologies'])) {

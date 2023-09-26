@@ -24,7 +24,7 @@
         <td> {{ $project->content}}</td>
         <td> 
             @if($project->image)
-                <img src="/storage{{$project->image}}" alt="{{$project->title}}"></td>
+                <img src="/storage/{{$project->image}}" alt="{{$project->title}}" class="w-25"></td>
             @endif
         <td> 
             @if ($project->type) 

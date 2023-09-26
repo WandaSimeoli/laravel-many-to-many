@@ -40,9 +40,11 @@
       <label for="image" class="form-label" >Image</label>
       </div>
       <div class="input-group mb-3 container-sm">
-      <input type="file" class="form-control" id="image" name="image"
-      placeholder="Choose file" accept="image/*">
-      <label class="input-group-text" for="inputImage">Upload</label>
+      <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
+      @error('image')
+      <div class="alert alert-danger">
+        {{$message}}
+        @enderror
       </div>
       <div class="mb-3 container-sm">
         <label for="typeId" class="form-label">Type</label>

@@ -4,7 +4,7 @@
 
 @section('main-content')
 <div class="container-sm">
-<form action="{{ route('admin.projects.update', ['project'=>$project->id])}}" method="POST">
+<form action="{{ route('admin.projects.update', ['project'=>$project->id])}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
   <div class="mb-3">
@@ -33,6 +33,27 @@
     name="content">{{old('content', $project->content)}}</textarea>
   </div>
   @error('content')
+      <div class="alert alert-danger">
+        {{$message}}
+        @enderror
+      </div>
+      <div class="container-sm"> 
+            @if($project->image)
+                <img src="/storage/{{$project->image}}" alt="{{$project->title}}" class="w-25">
+            @endif
+        <div> 
+        <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="1" id="remove_image" name="remove_image">
+          <label class="form-check-label" for="remove_image">
+            Delete Image
+        </label>
+        </div>
+      <div class="container-sm">
+      <label for="image" class="form-label" >Image</label>
+      </div>
+      <div class="input-group mb-3 container-sm">
+      <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" accept="image/*">
+      @error('image')
       <div class="alert alert-danger">
         {{$message}}
         @enderror
