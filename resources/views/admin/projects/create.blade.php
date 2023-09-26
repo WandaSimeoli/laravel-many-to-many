@@ -4,7 +4,7 @@
 
 @section('main-content')
 <div class="container-sm">
-<form action="{{ route('admin.projects.store')}}" method="POST">
+<form action="{{ route('admin.projects.store')}}" method="POST" enctype="multipart/form-data">
     @csrf
   <div class="mb-3">
     <label for="inputTitle" class="form-label">Title</label>
@@ -35,6 +35,14 @@
       <div class="alert alert-danger">
         {{$message}}
         @enderror
+      </div>
+      <div class="container-sm">
+      <label for="image" class="form-label" >Image</label>
+      </div>
+      <div class="input-group mb-3 container-sm">
+      <input type="file" class="form-control" id="image" name="image"
+      placeholder="Choose file" accept="image/*">
+      <label class="input-group-text" for="inputImage">Upload</label>
       </div>
       <div class="mb-3 container-sm">
         <label for="typeId" class="form-label">Type</label>

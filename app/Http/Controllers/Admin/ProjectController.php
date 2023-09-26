@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Project;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Technology;
 use App\Models\Type;
+use Psy\CodeCleaner\IssetPass;
 
 class ProjectController extends Controller
 {
@@ -36,6 +38,11 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request)
     {
         $formData = $request->validated();
+
+        if(isset($formData['image'])) {
+            $imagePath= Storage::put('uploads', $formData['image']);
+            dd($imagePath);
+        }
 
         $project = Project::create([
             'title' => $formData['title'],

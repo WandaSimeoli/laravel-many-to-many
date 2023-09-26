@@ -11,6 +11,7 @@
         <th scope="col">Title</th>
         <th scope="col">slug</th>
         <th scope="col">Content</th>
+        <th scope="col">Image</th>
         <th scope="col">Type</th>
         <th scope="col">Technology</th>
         </tr>
@@ -22,9 +23,13 @@
         <td> {{ $project->slug}}</td>
         <td> {{ $project->content}}</td>
         <td> 
+            @if($project->image)
+                <img src="/storage{{$project->image}}" alt="{{$project->title}}"></td>
+            @endif
+        <td> 
             @if ($project->type) 
-            <a href="{{ route('admin.projects.store', ['type'=> $project->type->id])}}">
-            {{ $project->type->title}}</a> 
+                <a href="{{ route('admin.projects.store', ['type'=> $project->type->id])}}">
+                {{ $project->type->title}}</a> 
             @else 
             - 
             @endif
