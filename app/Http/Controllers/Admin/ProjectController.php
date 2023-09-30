@@ -84,7 +84,7 @@ class ProjectController extends Controller
     public function update(UpdateProjectRequest $request, Project $project)
     {
         $formData = $request->validated();
-        $imagePath=$project->image;
+        $imagePath= $project->image;
         if(isset($formData['image'])) {
             if($project->image) {
                 Storage::disk('public')->delete($project->image);
